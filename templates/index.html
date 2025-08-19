@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% block body %}
+<header class="navbar navbar-dark bg-dark sticky-top shadow">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="#">PlasmidFlow</a>
+    <div class="d-flex align-items-center gap-3">
+      <span class="brand-mini text-muted text-uppercase">M-KHAN</span>
+      <img src="/static/img/father_topcorner.png" onerror="this.style.display='none'" style="height:40px;border-radius:50%;">
+    </div>
+  </div>
+</header>
+
+<div class="container-fluid">
+  <div class="row mt-3">
+    <!-- Sidebar -->
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="position-sticky pt-3 sidebar-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item px-3 mb-2">
+            <strong>Navigation</strong>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="#upload">Upload & Filters</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#visualize">Visualize</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#customize">Customize & Export</a>
+          </li>
+        </ul>
+        <div class="mt-4 px-3 small text-muted">
+          <img src="/static/img/header_banner_final.png" onerror="this.style.display='none'" style="width:100%;border-radius:8px;">
+          <div class="text-center mt-2">© 2025 PlasmidFlow</div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <!-- Upload -->
+      <section id="upload" class="pb-4 border-bottom">
+        <div class="d-flex justify-content-between align-items-center">
+          <h3 class="mt-3">📂 Upload Your Plasmid Dataset</h3>
+          <a class="btn btn-outline-primary btn-sm" href="/assets/PlasmidFlow_User_Guide.docx" target="_blank">📘 User Guide</a>
+        </div>
+
+        <p class="text-muted">CSV with columns: Plasmid_ID, Host_Genome, Environment, ARGs, Virulence, T4SS, MGEs</p>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <input class="form-control" type="file" id="csvFile" accept=".csv">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Filter by Environment</label>
+            <input class="form-control" type="text" id="envFilter" placeholder="Type environment name (optional)">
+          </div>
+        </div>
+
+        <div class="row g-3 mt-2">
+          <div class="col-md-4">
+            <label class="form-label">Gene Transfer Flow (Sankey)</label>
+            <div id="sankeyTraits" class="form-check">
+              <!-- checkboxes rendered by JS -->
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Shared Plasmid Network</label>
+            <div id="networkTraits" class="form-check"></div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Trait Presence Matrix</label>
+            <div id="heatmapTraits" class="form-check"></div>
+          </div>
+        </div>
+
+        <div class="card mt-3">
+          <div class="card-header">Dataset Preview</div>
+          <div class="card-body" id="previewArea">
+            <em>No dataset uploaded.</em>
+          </div>
+        </div>
+      </section>
+
+      <!-- Visualize -->
+      <section id="visualize" class="py-4 border-bottom">
+        <h3 class="mt-2">🔭 Visualization Panel</h3>
+        <div class="row g-3 align-items-center">
+          <div class="col-md-6">
+            <div class="btn-group" role="group" aria-label="Figure type">
+              <input type="radio" class="btn-check" name="figType" id="figSankey" autocomplete="off" checked value="sankey">
+              <label class="btn btn-outline-dark" for="figSankey">Sankey</label>
+
+              <input type="radio" class="btn-check" name="figType" id="figNetwork" autocomplete="off" value="network">
+              <label class="btn btn-outline-dark" for="figNetwork">Network</label>
+
+              <input type="radio" class="btn-check" name="figType" id="figHeatmap" autocomplete="off" value="heatmap">
+              <label class="btn btn-outline-dark" for="figHeatmap">Heatmap</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label mb-0">Heatmap Colorscale</label>
+            <select id="heatmapScale" class="form-select form-select-sm" style="max-width: 240px;">
+              <option>Blues</option>
+              <option>Viridis</option>
+              <option>Plasma</option>
+              <option>Cividis</option>
+              <option>Inferno</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="card mt-3">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <span>Interactive Preview</span>
+            <span class="small text-muted" id="statusText">Idle</span>
+          </div>
+          <div class="card-body">
+            <div id="plotArea" style="width:100%;height:600px;"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Customize & Export -->
+      <section id="customize" class="py-4">
+        <h3>🎨 Customization & Export</h3>
+        <div class="row g-3">
+          <div class="col-md-3">
+            <label class="form-label">Node Color</label>
+            <input class="form-control" id="styleNodeColor" value="red">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Edge Color</label>
+            <input class="form-control" id="styleEdgeColor" value="skyblue">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Node Size</label>
+            <input type="range" id="styleNodeSize" min="5" max="30" step="1" value="12" class="form-range">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Font Size</label>
+            <input type="range" id="styleFontSize" min="10" max="24" step="1" value="14" class="form-range">
+          </div>
+        </div>
+        <div class="row g-3 mt-2">
+          <div class="col-md-6">
+            <label class="form-label">Background Color</label>
+            <input class="form-control" id="styleBgColor" value="white">
+          </div>
+          <div class="col-md-6 d-flex align-items-end gap-2">
+            <button class="btn btn-secondary" id="btnSaveStyle">💾 Save Style (JSON)</button>
+            <input type="file" id="inputStyleFile" accept=".json" class="form-control">
+            <button class="btn btn-outline-info" id="btnUploadStyle">📂 Load Style</button>
+          </div>
+        </div>
+        <div class="row g-3 mt-3">
+          <div class="col-md-6 d-flex align-items-end gap-2">
+            <select id="exportFormat" class="form-select" style="max-width:200px;">
+              <option value="png">PNG</option>
+              <option value="svg">SVG</option>
+              <option value="pdf">PDF</option>
+            </select>
+            <button class="btn btn-primary" id="btnExport">Download Current Plot</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+{% endblock %}

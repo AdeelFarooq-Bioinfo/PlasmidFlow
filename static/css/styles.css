@@ -1,0 +1,13 @@
+html, body {
+  height: 100%;
+}
+.sidebar {
+  min-height: calc(100vh - 56px);
+}
+.brand-mini {
+  font-size: 0.8rem;
+  color: #bbb;
+}
+#plotArea {
+  min-height: 600px;
+}
