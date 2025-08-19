@@ -123,8 +123,7 @@ export DATABASE_URL=postgresql+psycopg2://user:pass@host:5432/plasmidflow
 ## 📚 Citation
 If you use PlasmidFlow in your work, please cite:  
 
-> *PlasmidFlow: A Web-based Platform for Interactive Visualization of Plasmid-Driven
-2 Traits* (2025)  
+> *PlasmidFlow: A Web-based Platform for Interactive Visualization of Plasmid-Driven Traits* (2025)  
 
 ---
 
