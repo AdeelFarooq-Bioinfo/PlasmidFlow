@@ -1,0 +1,39 @@
+cff-version: 1.2.0
+message: "If you use PlasmidFlow in your research, please cite it using the metadata below."
+title: "PlasmidFlow: A Web-based Platform for Interactive Visualization of Plasmid-Driven Traits"
+authors:
+  - family-names: Farooq
+    given-names: Adeel
+    affiliation: Department of Food Science, University of Guelph, Canada
+    orcid: "0000-0002-0956-8773"
+  - family-names: Rafique
+    given-names: Asma
+    affiliation: Department of Human Health and Nutritional Sciences, University of Guelph, Canada
+    orcid: "0000-0002-XXXX-XXXX"
+version: "v1.0.0"
+date-released: 2025-08-19
+url: "https://github.com/AdeelFarooq-Bioinfo/PlasmidFlow"
+repository-code: "https://github.com/AdeelFarooq-Bioinfo/PlasmidFlow"
+keywords:
+  - Plasmid
+  - Genomics
+  - Visualization
+  - Microbiology
+  - Dash
+  - Flask
+license: "MIT"
+preferred-citation:
+  type: article
+  title: "PlasmidFlow: A Web-based Platform for Interactive Visualization of Plasmid-Driven Traits"
+  authors:
+    - family-names: Farooq
+      given-names: Adeel
+    - family-names: Rafique
+      given-names: Asma
+  journal: "Journal of Open Source Software"
+  year: 2025
+  volume: 10
+  issue: 100
+  pages: 1234
+  doi: "10.21105/joss.xxxxx"
+
